@@ -37,6 +37,8 @@ RegisterNUICallback('closePanel', function()
 end)
 
 RegisterNUICallback('unban', function(data, cb)
+    cb('ok')
+
     ESX.TriggerServerCallback('wolfy_ban:unbanPlayer', function(data2)
         if data2.success then
             Panel(true, data2.banList)
@@ -46,7 +48,6 @@ RegisterNUICallback('unban', function(data, cb)
         end
     end,data.banId)
 
-    cb()
 end)
 
 RegisterCommand(Wolfy.Command['banpanel'].command, function()
