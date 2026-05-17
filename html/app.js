@@ -18,7 +18,7 @@ function renderBanList(List) {
 
     if (List.length === 0) {
         const container = document.getElementById('banList')
-        container.innerHTML = '<p class="text-zinc-400 mt-5 text-[0.85vw]">Nincsen unban</p>'
+        container.innerHTML = '<p class="text-zinc-400 mt-5 text-[0.85vw] select-none">Nincsen unban</p>'
         return
     }
 
@@ -102,7 +102,7 @@ document.getElementById('search').addEventListener('input', function (e) {
 
     if (filteredList.length === 0) {
         const container = document.getElementById('banList')
-        container.innerHTML = '<p class="text-zinc-400 mt-5 text-[0.85vw]">Nincs találat</p>'
+        container.innerHTML = '<p class="text-zinc-400 mt-5 text-[0.85vw] select-none">Nincs találat</p>'
         return
     }
     renderBanList(filteredList)
