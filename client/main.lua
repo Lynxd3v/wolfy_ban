@@ -1,5 +1,17 @@
 ESX = exports.es_extended:getSharedObject()
 
+TriggerEvent('chat:addSuggestion', '/'..Wolfy.Command['unban'].command, 'Játékos unbannolása', {
+    { name="banId", help="Játékos ban ID-ja" },
+})
+
+TriggerEvent('chat:addSuggestion', '/'..Wolfy.Command['ban'].command, 'Játékos kitiltása', {
+    { name="id", help="Játékos ID" },
+    { name="time", help="Kitiltás időtartama napokban (0 = örökre)" },
+    { name="reason", help="Kitiltás oka" }
+})
+
+TriggerEvent('chat:addSuggestion', '/'..Wolfy.Command['banpanel'].command, 'Ban panel')
+
 function Panel(bool, bansList)
     if bool then
         local filteredBanList = {}
@@ -8,7 +20,7 @@ function Panel(bool, bansList)
             table.insert(filteredBanList, {
                 name = ban.name,
                 bannedby = ban.bannedby,
-                time = ban.time,
+                time = (ban.time == 0 and 0 or os.date('%Y-%m-%d %H:%M:%S', ban.time)),
                 reason = ban.reason,
                 banId = ban.banId,
                 identifier = {
