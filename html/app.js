@@ -46,9 +46,6 @@ function renderBanList(List) {
 }
 
 function selectBan(ban) {
-    const isPerm = ban.time === 0
-    const expire = isPerm ? 'Soha' : new Date(ban.time * 1000).toLocaleString('hu-HU')
-
     document.getElementById('banName').textContent = ban.name
     document.getElementById('licenseidentifier').textContent = ban.identifier?.license || 'N/A'
     document.getElementById('discordidentifier').textContent = ban.identifier?.discord || 'N/A'
@@ -56,7 +53,7 @@ function selectBan(ban) {
     document.getElementById('fivemidentifier').textContent = ban.identifier?.fivem || 'N/A'
     document.getElementById('bannedby').textContent = ban.bannedby || 'N/A'
     document.getElementById('banId').textContent = '#' + ban.banId
-    document.getElementById('banTime').textContent = expire
+    document.getElementById('banTime').textContent = isPerm = ban.time === 0 || isPerm ? 'Soha' : ban.time
     document.getElementById('banReason').textContent = '"' + ban.reason + '"'
 }
 
