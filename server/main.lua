@@ -8,26 +8,7 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
     local bans = banFile and json.decode(banFile) or {}
     local reworkFile = false
 
-    deferrals.presentCard({
-        type = "AdaptiveCard",
-        version = "1.3",
-        body = {
-            {
-                type = "TextBlock",
-                text = "🔍 Ellenőrzés folyamatban...",
-                size = "Medium",
-                weight = "Bolder",
-                color = "Accent"
-            },
-            {
-                type = "TextBlock",
-                text = "Kérjük várj amíg ellenőrizzük a fiókodat.",
-                size = "Small",
-                color = "Default",
-                wrap = true
-            }
-        }
-    }, function(data, rawData) end)
+    deferrals.update('Ellenőrzés ki vagy e tiltva!')
 
     for i = #bans, 1, -1 do
         local ban = bans[i]
@@ -41,36 +22,13 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
 
         if isBanned then
             if os.time() <= ban.time or ban.time == 0 then
-                deferrals.presentCard({
-                    type = "AdaptiveCard",
-                    version = "1.3",
-                    body = {
-                        {
-                            type = "TextBlock",
-                            text = "🛑 Ki vagy tiltva a szerverről!",
-                            size = "ExtraLarge",
-                            weight = "Bolder",
-                            color = "Attention"
-                        },
-                        {
-                            type = "FactSet",
-                            facts = {
-                                { title = "Indok:",   value = ban.reason },
-                                { title = "Ban ID:",  value = tostring(ban.banId) },
-                                { title = "Admin:",   value = ban.bannedby },
-                                { title = "Lejár:",   value = ban.time == 0 and "Soha" or os.date("%Y-%m-%d %H:%M:%S", ban.time) }
-                            }
-                        }
-                    }
-                }, function(data, rawData) end)
-
-                Wait(500)
-                deferrals.done("Ki vagy tiltva!")
-                return
+                deferrals.done("🛑Ki vagy tiltva a szerverről!\n\nIndok: " ..ban.reason .."\nBan ID: "..ban.banId..
+                    "\nAdmin: " ..ban.bannedby .. "\nLejár: " .. (ban.time == 0 and 'Soha' or os.date("%Y-%m-%d %H:%M:%S", ban.time)))
             else
                 table.remove(bans, i)
                 reworkFile = true
             end
+
         end
     end
 
@@ -78,29 +36,13 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
         SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, {indent = true}), -1)
     end
 
-    deferrals.presentCard({
-        type = "AdaptiveCard",
-        version = "1.3",
-        body = {
-            {
-                type = "TextBlock",
-                text = "✅ Üdvözlünk a szerveren!",
-                size = "ExtraLarge",
-                weight = "Bolder",
-                color = "Good"
-            },
-            {
-                type = "TextBlock",
-                text = "Jó játékot, " .. name .. "!",
-                size = "Medium",
-                color = "Default"
-            }
-        }
-    }, function(data, rawData) end)
+    deferrals.update('Üdvözlünk a szerveren, ' .. name .. '!')
 
-    Wait(1500)
+    Wait(500)
+
     deferrals.done()
 end)
+
 Wolfy.GetAdmin = function(type, group)
     for _, v in ipairs(Wolfy.Command[type].groups) do
         if v == group then
@@ -220,3 +162,21 @@ RegisterCommand(Wolfy.Command['unban'].command, function(source, args)
         Wolfy.Message(source,'Nem található ilyen ban ID!')
     end
 end, false)
+
+ESX.RegisterServerCallback('wolfy_ban:unbanPlayer', function(source, cb, banId)
+    local banFile = LoadResourceFile(GetCurrentResourceName(), 'ban.json')
+    local bans = banFile and json.decode(banFile) or {}
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if (source == 0 and true or Wolfy.GetAdmin('unban', xPlayer.getGroup())) then
+        for i = #bans, 1, -1 do
+            if bans[i].banId == banId then
+                table.remove(bans, i)
+                SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, {indent = true}), -1)
+                cb({success = true, banList = bans})
+                return
+            end
+        end
+    end
+    cb({success = false})
+end)

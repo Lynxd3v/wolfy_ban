@@ -1,25 +1,24 @@
 ESX = exports.es_extended:getSharedObject()
 
 function Panel(bool, bansList)
-    local filteredBanList = {}
-    for i = 1, #bansList do
-        local ban = bansList[i]
-        table.insert(filteredBanList, {
-            name = ban.name,
-            bannedby = ban.bannedby,
-            time = (ban.time == 0 and 0 or os.date("%Y-%m-%d %H:%M:%S", ban.time)),
-            reason = ban.reason,
-            banId = ban.banId,
-            identifier = {
-                license = ban.identifier.license,
-                discord = ban.identifier.discord,
-                fivem   = ban.identifier.fivem,
-                ip      = ban.identifier.ip,
-            }
-        })
-    end
-
     if bool then
+        local filteredBanList = {}
+        for i = 1, #bansList do
+            local ban = bansList[i]
+            table.insert(filteredBanList, {
+                name = ban.name,
+                bannedby = ban.bannedby,
+                time = ban.time,
+                reason = ban.reason,
+                banId = ban.banId,
+                identifier = {
+                    license = ban.identifier.license,
+                    discord = ban.identifier.discord,
+                    fivem   = ban.identifier.fivem,
+                    ip      = ban.identifier.ip,
+                }
+            })
+        end
         SendNUIMessage({
             action = 'showPanel',
             banList = filteredBanList
@@ -29,7 +28,26 @@ function Panel(bool, bansList)
             action = 'hidePanel',
         })
     end
+
+    SetNuiFocus(bool, bool)
 end
+
+RegisterNUICallback('closePanel', function()
+    Panel(false)
+end)
+
+RegisterNUICallback('unban', function(data, cb)
+    ESX.TriggerServerCallback('wolfy_ban:unbanPlayer', function(data2)
+        if data2.success then
+            Panel(true, data2.banList)
+            ESX.ShowNotification('Sikeresen unbanned player!')
+        else
+            ESX.ShowNotification('Hiba történt a player unbanolásakor!')
+        end
+    end,data.banId)
+
+    cb()
+end)
 
 RegisterCommand(Wolfy.Command['banpanel'].command, function()
     local bans = json.decode(LoadResourceFile(GetCurrentResourceName(), 'ban.json'))

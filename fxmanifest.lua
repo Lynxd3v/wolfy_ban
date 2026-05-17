@@ -3,6 +3,8 @@ game 'gta5'
 
 description 'Created by Wolf'
 
+ui_page 'html/index.html'
+
 files {
     'ban.json',
     'html/index.html',

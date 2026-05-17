@@ -19,10 +19,21 @@
             background-color: rgb(166, 166, 166);
             border-radius: 1vh;
         }
+
+        #content::-webkit-scrollbar {
+            background-color: rgba(0, 0, 0, 0.356);
+            border-radius: 2vh;
+            width: 0.5vw;
+        }
+
+        #content::-webkit-scrollbar-thumb {
+            background-color: rgb(88, 80, 80);
+            border-radius: 1vh;
+        }
     </style>
 </head>
 
-<body class="w-screen h-screen flex justify-center items-center">
+<body class="w-screen h-screen hidden justify-center items-center">
     <div id="container" class=" w-[60vw] h-[75vh] bg-zinc-950/90 rounded-lg shadow-2xl shadow-black/50 flex">
         <div class="w-[25%] h-full border-r-[0.1vw] border-r-white">
             <p
@@ -30,7 +41,7 @@
                 Ban List</p>
             <input id="search" type="text" placeholder="Keresés..."
                 class="ml-[7%] mt-[3%] text-[1vw] h-[4.5%] rounded-[0.2vw] w-[85%] px-3 bg-gray-200/90 text-black placeholder-gray-500 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:border-transparent shadow-sm">
-            <div id="banList" class="mt-[0.5vh] h-[84%] w-full flex flex-col items-center overflow-y-auto gap-2 py-2">
+            <div id="banList" class="mt-[0.5vh] h-[84%] w-full flex flex-col items-center overflow-y-auto gap-4 py-2">
                 <div
                     class="ban-item w-[85%] flex items-center gap-3 bg-zinc-700 hover:bg-zinc-600 border border-white/5 rounded-lg h-[3.5vw] px-[1vw] cursor-pointer transition-colors">
                     <div
@@ -49,8 +60,8 @@
         </div>
         <div id="content" class="flex-1 p-[2vw] overflow-y-auto">
             <div class="flex justify-between items-center mb-[3vh]">
-                <h1 id="banName" class="text-white font-bold text-[2.5vw] tracking-tight">Lynxxx</h1>
-                <button
+                <h1 id="banName" class="text-white font-bold text-[2.5vw] tracking-tight select-none">Betöltés...</h1>
+                <button id="unbanbtn"
                     class="bg-red-600 hover:bg-red-700 text-white font-bold py-[1vh] px-[2vw] rounded-md transition-all duration-300 shadow-lg shadow-red-900/20 uppercase text-[0.8vw]">
                     <i class="fa-solid fa-unlock-keyhole mr-2"></i> Unban
                 </button>
@@ -59,60 +70,58 @@
             <div class="grid grid-cols-2 gap-[1.5vw]">
 
                 <div class="bg-zinc-900/80 p-[1.5vw] rounded-xl border border-white/5 shadow-2xl">
-                    <h2 class="text-white font-bold uppercase text-[0.7vw] mb-[1.5vh] tracking-widest">Azonosítók
+                    <h2 class="text-white font-bold uppercase text-[0.7vw] mb-[1vh] tracking-widest select-none">Kitiltás indoka
+                    </h2>
+                    <p id="banReason" class="text-zinc-200 text-[0.9vw] leading-relaxed">
+                        Betöltés...
+                    </p>
+                </div>
+
+                <div class="bg-zinc-900/80 p-[1.5vw] rounded-xl border border-white/5 shadow-2xl">
+                    <h2 class="text-white font-bold uppercase text-[0.7vw] mb-[1.5vh] tracking-widest select-none">Kitiltás
+                        adatai</h2>
+                    <div class="space-y-[1.2vh] text-[0.85vw]">
+                        <p class="text-zinc-400 flex justify-between items-center">
+                            <span class="select-none"><i class="fa-solid fa-shield w-6 text-blue-500"></i> Admin:</span>
+                            <span id="bannedby" class="text-white font-medium">Betöltés...</span>
+                        </p>
+                        <p class="text-zinc-400 flex justify-between items-center">
+                            <span class="select-none"><i class="fa-solid fa-ban w-6 text-blue-500 "></i> Ban ID:</span>
+                            <span id="banId" class="text-blue-400 font-mono">Betöltés...</span>
+                        </p>
+                        <p class="text-zinc-400 flex justify-between items-center">
+                            <span class="select-none"><i class="fa-solid fa-clock w-6 text-blue-500 "></i> Lejárat:</span>
+                            <span id="banTime" class="text-white">Betöltés...</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-900/80 p-[1.5vw] rounded-xl border border-white/5 shadow-2xl col-span-2">
+                    <h2 class="text-white font-bold uppercase text-[0.7vw] mb-[1.5vh] tracking-widest select-none">Azonosítók
                     </h2>
                     <div class="space-y-[1.2vh] text-[0.85vw]">
                         <p class="text-zinc-400 flex justify-between items-center">
                             <span class="select-none"><i class="fa-solid fa-id-card w-6 text-blue-500"></i> License:</span>
                             <span id="licenseidentifier"
-                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">license:202302302302</span>
+                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">Betöltés...</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
                             <span class="select-none"><i class="fa-brands fa-discord w-6 text-blue-500 "></i> Discord:</span>
                             <span id="discordidentifier"
-                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">43904320942304</span>
+                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">Betöltés...</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
                             <span class="select-none"><i class="fa-solid fa-network-wired w-6 text-blue-500 "></i> IP:</span>
                             <span id="ipidentifier"
-                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">192.168.1.1</span>
+                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">Betöltés...</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
                             <span class="select-none"><i class="fa-solid fa-gamepad w-6 text-blue-500"></i> Fivem:</span>
                             <span id="fivemidentifier"
-                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">asdasd</span>
+                                class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">Betöltés...</span>
                         </p>
                     </div>
                 </div>
-
-                <div class="bg-zinc-900/80 p-[1.5vw] rounded-xl border border-white/5 shadow-2xl">
-                    <h2 class="text-white font-bold uppercase text-[0.7vw] mb-[1.5vh] tracking-widest">Kitiltás
-                        adatai</h2>
-                    <div class="space-y-[1.2vh] text-[0.85vw]">
-                        <p class="text-zinc-400 flex justify-between items-center">
-                            <span class="select-none"><i class="fa-solid fa-shield w-6 text-blue-500"></i> Admin:</span>
-                            <span id="bannedby" class="text-white font-medium">WolfyAdmin</span>
-                        </p>
-                        <p class="text-zinc-400 flex justify-between items-center">
-                            <span class="select-none"><i class="fa-solid fa-ban w-6 text-blue-500 "></i> Ban ID:</span>
-                            <span id="banId" class="text-blue-400 font-mono">#85032</span>
-                        </p>
-                        <p class="text-zinc-400 flex justify-between items-center">
-                            <span class="select-none"><i class="fa-solid fa-clock w-6 text-blue-500 "></i> Lejárat:</span>
-                            <span id="banTime" class="text-white">2027.06.14</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-span-2 bg-zinc-900/80 p-[1.5vw] rounded-xl border border-white/5 shadow-2xl">
-                    <h2 class="text-white font-bold uppercase text-[0.7vw] mb-[1vh] tracking-widest">Kitiltás indoka
-                    </h2>
-                    <p id="banReason" class="text-zinc-200 italic text-[0.9vw] leading-relaxed">
-                        "Súlyos szabályszegés: Többszöri VDM és adminisztrátori utasítások figyelmen kívül hagyása a
-                        Sandy Shores-i találkozó alatt."
-                    </p>
-                </div>
-
             </div>
         </div>
     </div>
