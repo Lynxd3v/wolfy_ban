@@ -1,35 +1,53 @@
 ESX = exports.es_extended:getSharedObject()
 
-TriggerEvent('chat:addSuggestion', '/'..Wolfy.Command['unban'].command, 'Játékos unbannolása', {
-    { name="banId", help="Játékos ban ID-ja" },
+TriggerEvent('chat:addSuggestion', '/' .. Wolfy.Command['unban'].command, 'Játékos unbannolása', {
+    { name = "banId", help = "Játékos ban ID-ja" },
 })
 
-TriggerEvent('chat:addSuggestion', '/'..Wolfy.Command['ban'].command, 'Játékos kitiltása', {
-    { name="id", help="Játékos ID" },
-    { name="time", help="Kitiltás időtartama napokban (0 = örökre)" },
-    { name="reason", help="Kitiltás oka" }
+TriggerEvent('chat:addSuggestion', '/' .. Wolfy.Command['ban'].command, 'Játékos kitiltása', {
+    { name = "id",     help = "Játékos ID" },
+    { name = "time",   help = "Kitiltás időtartama napokban (0 = örökre)" },
+    { name = "reason", help = "Kitiltás oka" }
 })
 
-TriggerEvent('chat:addSuggestion', '/'..Wolfy.Command['banpanel'].command, 'Ban panel')
+TriggerEvent('chat:addSuggestion', '/' .. Wolfy.Command['banpanel'].command, 'Ban panel')
 
 function Panel(bool, bansList)
     if bool then
         local filteredBanList = {}
         for i = 1, #bansList do
             local ban = bansList[i]
-            table.insert(filteredBanList, {
-                name = ban.name,
-                bannedby = ban.bannedby,
-                time = (ban.time == 0 and 0 or os.date('%Y-%m-%d %H:%M:%S', ban.time)),
-                reason = ban.reason,
-                banId = ban.banId,
-                identifier = {
-                    license = ban.identifier.license,
-                    discord = ban.identifier.discord,
-                    fivem   = ban.identifier.fivem,
-                    ip      = ban.identifier.ip,
-                }
-            })
+            if ban.time ~= 0 then
+                ESX.TriggerServerCallback('wolfy_ban:getBanTime', function(time)
+                    table.insert(filteredBanList, {
+                        name = ban.name,
+                        bannedby = ban.bannedby,
+                        time = time,
+                        reason = ban.reason,
+                        banId = ban.banId,
+                        identifier = {
+                            license = ban.identifier.license,
+                            discord = ban.identifier.discord,
+                            fivem   = ban.identifier.fivem,
+                            ip      = ban.identifier.ip,
+                        }
+                    })
+                end, ban.time)
+            else
+                table.insert(filteredBanList, {
+                    name = ban.name,
+                    bannedby = ban.bannedby,
+                    time = 0,
+                    reason = ban.reason,
+                    banId = ban.banId,
+                    identifier = {
+                        license = ban.identifier.license,
+                        discord = ban.identifier.discord,
+                        fivem   = ban.identifier.fivem,
+                        ip      = ban.identifier.ip,
+                    }
+                })
+            end
         end
         SendNUIMessage({
             action = 'showPanel',
@@ -58,8 +76,7 @@ RegisterNUICallback('unban', function(data, cb)
         else
             ESX.ShowNotification('Hiba történt a player unbanolásakor!')
         end
-    end,data.banId)
-
+    end, data.banId)
 end)
 
 RegisterCommand(Wolfy.Command['banpanel'].command, function()

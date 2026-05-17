@@ -180,6 +180,10 @@ ESX.RegisterServerCallback('wolfy_ban:unbanPlayer', function(source, cb, banId)
     cb({ success = false })
 end)
 
+ESX.RegisterServerCallback('wolfy_ban:getBanTime', function(source, cb, time)
+    cb((time == 0 and 0 or os.date('%Y-%m-%d %H:%M:%S', time)))
+end)
+
 exports('banPlayer', function(targetId, time, reason)
     local bans = json.decode(LoadResourceFile(GetCurrentResourceName(), 'ban.json')) or {}
 
