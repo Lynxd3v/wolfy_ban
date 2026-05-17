@@ -107,7 +107,7 @@ RegisterCommand(Wolfy.Command['ban'].command, function(source, args)
         end
 
         local xTarget = ESX.GetPlayerFromId(targetId)
-
+        
         if xTarget then
             table.insert(bans, {
                 name = GetPlayerName(targetId),

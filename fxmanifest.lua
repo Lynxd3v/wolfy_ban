@@ -19,3 +19,7 @@ server_exports {
     'unbanPlayer',
     'banPlayer'
 }
+
+dependency {
+    'es_extended'
+}
