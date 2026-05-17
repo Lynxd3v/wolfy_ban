@@ -28,7 +28,7 @@
             <p
                 class="uppercase font-bold text-white flex justify-center items-center ml-5 mr-5 h-[8%] pt-[1vh] text-[1.7vw] italic select-none  text-nowrap border-b-[0.2vh] border-b-white">
                 Ban List</p>
-            <input type="text" placeholder="Keresés..."
+            <input id="search" type="text" placeholder="Keresés..."
                 class="ml-[7%] mt-[3%] text-[1vw] h-[4.5%] rounded-[0.2vw] w-[85%] px-3 bg-gray-200/90 text-black placeholder-gray-500 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-200 focus:border-transparent shadow-sm">
             <div id="banList" class="mt-[0.5vh] h-[84%] w-full flex flex-col items-center overflow-y-auto gap-2 py-2">
                 <div
@@ -63,22 +63,22 @@
                     </h2>
                     <div class="space-y-[1.2vh] text-[0.85vw]">
                         <p class="text-zinc-400 flex justify-between items-center">
-                            <span><i class="fa-solid fa-id-card w-6 text-blue-500"></i> License:</span>
+                            <span class="select-none"><i class="fa-solid fa-id-card w-6 text-blue-500"></i> License:</span>
                             <span id="licenseidentifier"
                                 class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">license:202302302302</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
-                            <span><i class="fa-brands fa-discord w-6 text-blue-500"></i> Discord:</span>
+                            <span class="select-none"><i class="fa-brands fa-discord w-6 text-blue-500 "></i> Discord:</span>
                             <span id="discordidentifier"
                                 class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">43904320942304</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
-                            <span><i class="fa-solid fa-network-wired w-6 text-blue-500"></i> IP:</span>
+                            <span class="select-none"><i class="fa-solid fa-network-wired w-6 text-blue-500 "></i> IP:</span>
                             <span id="ipidentifier"
                                 class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">192.168.1.1</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
-                            <span><i class="fa-solid fa-gamepad w-6 text-blue-500"></i> Fivem:</span>
+                            <span class="select-none"><i class="fa-solid fa-gamepad w-6 text-blue-500"></i> Fivem:</span>
                             <span id="fivemidentifier"
                                 class="text-white bg-zinc-800 px-2 py-1 rounded blur-sm hover:blur-none transition-all">asdasd</span>
                         </p>
@@ -90,15 +90,15 @@
                         adatai</h2>
                     <div class="space-y-[1.2vh] text-[0.85vw]">
                         <p class="text-zinc-400 flex justify-between items-center">
-                            <span><i class="fa-solid fa-shield w-6 text-blue-500"></i> Admin:</span>
+                            <span class="select-none"><i class="fa-solid fa-shield w-6 text-blue-500"></i> Admin:</span>
                             <span id="bannedby" class="text-white font-medium">WolfyAdmin</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
-                            <span><i class="fa-solid fa-ban w-6 text-blue-500"></i> Ban ID:</span>
+                            <span class="select-none"><i class="fa-solid fa-ban w-6 text-blue-500 "></i> Ban ID:</span>
                             <span id="banId" class="text-blue-400 font-mono">#85032</span>
                         </p>
                         <p class="text-zinc-400 flex justify-between items-center">
-                            <span><i class="fa-solid fa-clock w-6 text-blue-500"></i> Lejárat:</span>
+                            <span class="select-none"><i class="fa-solid fa-clock w-6 text-blue-500 "></i> Lejárat:</span>
                             <span id="banTime" class="text-white">2027.06.14</span>
                         </p>
                     </div>
