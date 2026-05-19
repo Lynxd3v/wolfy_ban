@@ -1,5 +1,10 @@
 Wolfy = {}
 
+Wolfy.ResourceAllowed = { -- List of resources that are allowed to use the exports
+    ['esx_society'] = true,
+    ['esx_advancedgarage'] = true
+}
+
 Wolfy.Command = {
     ['banpanel'] = {
         command = 'wpanel',

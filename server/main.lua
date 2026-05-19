@@ -184,8 +184,20 @@ ESX.RegisterServerCallback('wolfy_ban:getBanTime', function(source, cb, time)
     cb((time == 0 and 0 or os.date('%Y-%m-%d %H:%M:%S', time)))
 end)
 
+function GetResourceAllowed()
+    local caller = GetInvokingResource()
+
+    if not caller then return false end
+
+    return Wolfy.ResourceAllowed[caller] == true
+end
+
 exports('banPlayer', function(targetId, time, reason)
     local bans = json.decode(LoadResourceFile(GetCurrentResourceName(), 'ban.json')) or {}
+
+    if not GetResourceAllowed() then
+        return
+    end
 
     table.insert(bans, {
         name = GetPlayerName(targetId),
@@ -210,6 +222,10 @@ end)
 
 exports('unbanPlayer', function(banId)
     local bans = json.decode(LoadResourceFile(GetCurrentResourceName(), 'ban.json')) or {}
+
+    if not GetResourceAllowed() then
+        return
+    end
 
     for i = 1, #bans do
         if bans[i].banId == banId then
