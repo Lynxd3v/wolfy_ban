@@ -231,8 +231,7 @@ exports('unbanPlayer', function(banId)
         if bans[i].banId == banId then
             table.remove(bans, i)
             SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
-            return true
+            break
         end
     end
-    return false
 end)
