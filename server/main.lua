@@ -1,3 +1,5 @@
+Message = Wolfy.Message[Wolfy.Lang]
+
 AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
     local player = source
     deferrals.defer()
@@ -102,7 +104,7 @@ RegisterCommand(Wolfy.Command['ban'].command, function(source, args)
         local reason = table.concat(args, ' ', 3)
 
         if not targetId or not time or #reason == 0 then
-            Wolfy.Message(source, 'Valamelyik érték nincs megadva')
+            Wolfy.Message(source, Message['invalid_ban_id'])
             return
         end
 
@@ -126,13 +128,13 @@ RegisterCommand(Wolfy.Command['ban'].command, function(source, args)
                 }
             })
         else
-            Wolfy.Message(source, 'Nincsen ilyen IDjű játékos!')
+            Wolfy.Message(source, Message['player_not_found'])
             return
         end
 
-        DropPlayer(targetId, 'Ki lettél tiltva!')
+        DropPlayer(targetId, Message['kick_message'])
         SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
-        Wolfy.Message(source, 'Sikeresen bannoltad a játékost! BanID: ' .. bans[#bans].banId)
+        Wolfy.Message(source, Message['ban_success'] .. ' BanID: ' .. bans[#bans].banId)
     end
 end, false)
 
@@ -145,7 +147,7 @@ RegisterCommand(Wolfy.Command['unban'].command, function(source, args)
         local unbanId = tonumber(args[1])
 
         if not unbanId then
-            Wolfy.Message(source, 'Add meg a ban ID-t!')
+            Wolfy.Message(source, Message['invalid_ban_id'])
             return
         end
 
@@ -153,12 +155,12 @@ RegisterCommand(Wolfy.Command['unban'].command, function(source, args)
             if bans[i].banId == unbanId then
                 table.remove(bans, i)
                 SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
-                Wolfy.Message(source, 'Sikeresen unbannoltad! BanID: ' .. unbanId)
+                Wolfy.Message(source, Message['unban_success'] .. ' BanID: ' .. unbanId)
                 return
             end
         end
 
-        Wolfy.Message(source, 'Nem található ilyen ban ID!')
+        Wolfy.Message(source, Message['ban_id_not_found'])
     end
 end, false)
 
@@ -217,7 +219,7 @@ exports('banPlayer', function(targetId, time, reason)
     })
 
     SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
-    DropPlayer(targetId, 'Ki lettél tiltva!')
+    DropPlayer(targetId, Message['kick_message'])
 end)
 
 exports('unbanPlayer', function(banId)
