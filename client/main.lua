@@ -1,5 +1,8 @@
 ESX = exports.es_extended:getSharedObject()
 
+local locale = LoadResourceFile(GetCurrentResourceName(), 'language/' .. Wolfy.Language .. '.json')
+Msg = locale and json.decode(locale) or {}
+
 TriggerEvent('chat:addSuggestion', '/' .. Wolfy.Command['unban'].command, 'Játékos unbannolása', {
     { name = "banId", help = "Játékos ban ID-ja" },
 })
@@ -49,9 +52,11 @@ function Panel(bool, bansList)
                 })
             end
         end
+
         SendNUIMessage({
             action = 'showPanel',
-            banList = filteredBanList
+            banList = filteredBanList,
+            lang = Msg
         })
     else
         SendNUIMessage({
@@ -72,9 +77,9 @@ RegisterNUICallback('unban', function(data, cb)
     ESX.TriggerServerCallback('wolfy_ban:unbanPlayer', function(data2)
         if data2.success then
             Panel(true, data2.banList)
-            ESX.ShowNotification(Message['unban_success'])
+            ESX.ShowNotification(Msg['unban_success'])
         else
-            ESX.ShowNotification(Message['unban_error'])
+            ESX.ShowNotification(Msg['unban_error'])
         end
     end, data.banId)
 end)
@@ -86,7 +91,7 @@ RegisterCommand(Wolfy.Command['banpanel'].command, function()
         if isAdmin then
             Panel(true, bans)
         else
-            ESX.ShowNotification(Message['no_permission'])
+            ESX.ShowNotification(Msg['no_permission'])
         end
     end)
 end, false)

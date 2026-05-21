@@ -1,0 +1,19 @@
+{
+  "kick_message": "You have been banned from the server!",
+  "ban_id_not_found": "No ban found with that ID!",
+  "player_not_found": "Player not found!",
+  "invalid_ban_id": "Invalid ban ID!",
+  "unban_success": "Ban successfully removed!",
+  "ban_success": "Player successfully banned!",
+  "ban_checkin": "Checking...",
+  "unban_error": "Failed to remove ban!",
+  
+  "search_placeholder": "Search by name...",
+  "loading_data": "Loading...",
+  "ban_data": "Ban Data",
+  "ban_end": "Ban End",
+  "ban_reason": "Ban Reason",
+  "identifiers": "Identifiers",
+  "no_found_bans": "No bans found!",
+  "no_found_search_bans": "No bans found with that name!"
+}

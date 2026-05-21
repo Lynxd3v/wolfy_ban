@@ -1,6 +1,6 @@
 Wolfy = {}
 
-Wolfy.Lang = "Hu" -- Hu or En
+Wolfy.Language = "Hu" -- Hu or En
 Wolfy.ResourceAllowed = { -- List of resources that are allowed to use the exports
     ['esx_society'] = true,
     ['esx_advancedgarage'] = true

@@ -9,7 +9,26 @@ let banList = [
     }
 ]
 
+let lang = {}
+
 let selectedBan = null
+
+function setLanguage() {
+    document.getElementById('ban_end_minititle').textContent = lang["ban_end"]
+    document.getElementById('ban_reason_title').textContent = lang["ban_reason"]
+    document.getElementById('identifiers_title').textContent = lang["identifiers"]
+    document.getElementById('ban_data_title').textContent = lang["ban_data"]
+    document.getElementById('search').placeholder = lang["search_placeholder"]
+    document.getElementById('banTime').textContent = lang["loading_data"]
+    document.getElementById('banId').textContent = lang["loading_data"]
+    document.getElementById('bannedby').textContent = lang["loading_data"]
+    document.getElementById('banName').textContent = lang["loading_data"]
+    document.getElementById('banReason').textContent = lang["loading_data"]
+    document.getElementById('licenseidentifier').placeholder = lang["loading_data"]
+    document.getElementById('discordidentifier').textContent = lang["loading_data"]
+    document.getElementById('ipidentifier').textContent = lang["loading_data"]
+    document.getElementById('fivemidentifier').textContent = lang["loading_data"]
+}
 
 function renderBanList(List) {
     const container = document.getElementById('banList')
@@ -18,7 +37,7 @@ function renderBanList(List) {
 
     if (List.length === 0) {
         const container = document.getElementById('banList')
-        container.innerHTML = '<p class="text-zinc-400 mt-5 text-[0.85vw] select-none">Nincsen unban</p>'
+        container.innerHTML = `<p class="text-zinc-400 mt-5 text-[0.85vw] select-none">${lang['no_found_bans']}</p>`
         return
     }
 
@@ -31,7 +50,7 @@ function renderBanList(List) {
         div.innerHTML = `<div class="w-9 h-9 rounded-full bg-purple-900 flex items-center justify-center text-purple-200 text-xs font-medium flex-shrink-0" ></div>
                     <div class="flex-1 min-w-0">
                         <p class="text-[0.85vw] font-medium text-white truncate m-0 select-none">${item.name}</p>
-                        <p class="text-[0.65vw] text-zinc-400 m-0 select-none">Lejár: ${item.time === 0 ? 'Soha' : item.time}</p>
+                        <p class="text-[0.65vw] text-zinc-400 m-0 select-none" id="ban_end_minititle">Lejár: ${item.time === 0 ? 'Soha' : item.time}</p>
                     </div>
                     <span class="select-none text-[0.6vw] px-2 py-0.5 rounded-full ${item.time === 0 ? 'bg-red-900 text-red-300' : 'bg-green-900 text-green-300'}">${item.time === 0 ? 'Perm' : 'Temp'}</span>`
 
@@ -69,9 +88,12 @@ window.addEventListener('message', function (event) {
 
     if (e.action === 'showPanel') {
         banList = e.banList
-        renderBanList(banList)
         document.body.classList.remove('hidden')
         document.body.classList.add('flex')
+        lang = e.lang
+
+        setLanguage()
+        renderBanList(banList)
     } else if (e.action === 'hidePanel') {
         document.body.classList.add('hidden')
         document.body.classList.remove('flex')
@@ -102,7 +124,7 @@ document.getElementById('search').addEventListener('input', function (e) {
 
     if (filteredList.length === 0) {
         const container = document.getElementById('banList')
-        container.innerHTML = '<p class="text-zinc-400 mt-5 text-[0.85vw] select-none">Nincs találat</p>'
+        container.innerHTML = `<p class="text-zinc-400 mt-5 text-[0.85vw] select-none">${lang["no_found_search_bans"]}</p>`
         return
     }
     renderBanList(filteredList)

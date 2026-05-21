@@ -1,0 +1,19 @@
+{
+  "kick_message": "Ki lettél tiltva a szerverről!",
+  "ban_id_not_found": "Nem található ilyen ID-vel ban!",
+  "player_not_found": "Nem található ilyen játékos!",
+  "invalid_ban_id": "Érvénytelen ban ID!",
+  "unban_success": "Sikeres feloldás!",
+  "unban_error": "Sikertelen feloldás!",
+  "ban_success": "Sikeres tiltás!",
+  "ban_checkin": "Ellenőrzés folyamatban...",
+
+  "search_placeholder": "Keresés név alapján...",
+  "loading_data": "Betöltés...",
+  "ban_data": "Kitiltás adatai",
+  "ban_end": "Lejárat",
+  "ban_reason": "Kitiltás indoka",
+  "identifiers": "Azonosítók",
+  "no_found_bans": "Nem található tiltás!",
+  "no_found_search_bans": "Nem található tiltás ezzel a névvel!"
+}

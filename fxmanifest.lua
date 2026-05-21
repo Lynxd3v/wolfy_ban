@@ -8,12 +8,13 @@ ui_page 'html/index.html'
 files {
     'ban.json',
     'html/index.html',
-    'html/app.js'
+    'html/app.js',
+    'language/*.json'
 }
 
 client_scripts {'client/*.lua'}
 server_scripts {'server/*.lua'}
-shared_scripts {'config.lua','@es_extended/imports.lua'}
+shared_scripts {'config/*.lua','@es_extended/imports.lua'}
 
 server_exports {
     'unbanPlayer',
