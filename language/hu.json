@@ -7,6 +7,12 @@
   "unban_error": "Sikertelen feloldás!",
   "ban_success": "Sikeres tiltás!",
   "ban_checkin": "Ellenőrzés folyamatban...",
+  "you_are_banned": "Tiltva vagy a szerveren!",
+  "reason": "Indok: ",
+  "ban_id": "Azonosító: ",
+  "ban_ending": "Lejár: ",
+  "ban_endless": "Soha",
+  "welcome_message": "Üdvözöllek a szerveren, %s!",
 
   "search_placeholder": "Keresés név alapján...",
   "loading_data": "Betöltés...",

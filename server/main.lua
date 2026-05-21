@@ -33,9 +33,9 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
 
         if isBanned then
             if os.time() <= ban.time or ban.time == 0 then
-                deferrals.done("🛑Ki vagy tiltva a szerverről!\n\nIndok: " .. ban.reason .. "\nBan ID: " .. ban.banId ..
+                deferrals.done("🛑"..Msg['you_are_banned'].."\n"..Msg['reason'].. "" .. ban.reason .. "\nBan "..Msg['ban_id'].." " .. ban.banId ..
                     "\nAdmin: " ..
-                    ban.bannedby .. "\nLejár: " .. (ban.time == 0 and 'Soha' or os.date("%Y-%m-%d %H:%M:%S", ban.time)))
+                    ban.bannedby .. "\n"..Msg['ban_ending'].." " .. (ban.time == 0 and Msg['ban_endless'] or os.date("%Y-%m-%d %H:%M:%S", ban.time)))
             else
                 table.remove(bans, i)
                 reworkFile = true
@@ -47,7 +47,7 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
         SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
     end
 
-    deferrals.update('Üdvözlünk a szerveren, ' .. name .. '!')
+    deferrals.update(Msg['welcome_message']:format(name))
 
     Wait(500)
 

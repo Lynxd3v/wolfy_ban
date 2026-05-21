@@ -7,7 +7,13 @@
   "ban_success": "Player successfully banned!",
   "ban_checkin": "Checking...",
   "unban_error": "Failed to remove ban!",
-  
+  "you_are_banned": "You are banned from the server!",
+  "reason": "Reason: ",
+  "ban_id": "ID: ",
+  "ban_ending": "Ban ends: ",
+  "ban_endless": "Never",
+  "welcome_message": "Welcome to the server, %s!",
+
   "search_placeholder": "Search by name...",
   "loading_data": "Loading...",
   "ban_data": "Ban Data",
