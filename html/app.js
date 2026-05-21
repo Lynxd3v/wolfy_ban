@@ -24,7 +24,7 @@ function setLanguage() {
     document.getElementById('bannedby').textContent = lang["loading_data"]
     document.getElementById('banName').textContent = lang["loading_data"]
     document.getElementById('banReason').textContent = lang["loading_data"]
-    document.getElementById('licenseidentifier').placeholder = lang["loading_data"]
+    document.getElementById('licenseidentifier').textContent = lang["loading_data"]
     document.getElementById('discordidentifier').textContent = lang["loading_data"]
     document.getElementById('ipidentifier').textContent = lang["loading_data"]
     document.getElementById('fivemidentifier').textContent = lang["loading_data"]
