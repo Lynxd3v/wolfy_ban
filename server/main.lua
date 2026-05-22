@@ -1,11 +1,29 @@
 Msg = {}
+local bans = {}
 
-CreateThread(function ()
+AddEventHandler('onResourceStart', function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then return end
+
+    local banFile = LoadResourceFile(GetCurrentResourceName(), 'ban.json')
+    if banFile then
+        bans = json.decode(banFile)
+    else
+        print('Failed to load ban file. (ban.json)')
+    end
+end)
+
+AddEventHandler('onResourceStop', function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then return end
+
+    SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
+end)
+
+CreateThread(function()
     local locale = LoadResourceFile(GetCurrentResourceName(), 'language/' .. Wolfy.Language .. '.json')
     if locale then
         Msg = json.decode(locale)
     else
-        print('Failed to load language file for ' .. Wolfy.Language)
+        print('Failed to load language file. (' .. Wolfy.Language .. '.json)')
     end
 end)
 
@@ -14,9 +32,6 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
     deferrals.defer()
 
     Wait(100)
-
-    local banFile = LoadResourceFile(GetCurrentResourceName(), 'ban.json')
-    local bans = banFile and json.decode(banFile) or {}
     local reworkFile = false
 
     deferrals.update(Msg['ban_checkin'])
@@ -28,14 +43,20 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
         for k, v in pairs(ban.identifier) do
             if v == GetPlayerIdentifierByType(player, k) then
                 isBanned = true
+                break
             end
         end
 
         if isBanned then
             if os.time() <= ban.time or ban.time == 0 then
-                deferrals.done("🛑"..Msg['you_are_banned'].."\n"..Msg['reason'].. "" .. ban.reason .. "\nBan "..Msg['ban_id'].." " .. ban.banId ..
+                deferrals.done("🛑" ..
+                    Msg['you_are_banned'] ..
+                    "\n" .. Msg['reason'] .. "" .. ban.reason .. "\nBan " .. Msg['ban_id'] .. " " .. ban.banId ..
                     "\nAdmin: " ..
-                    ban.bannedby .. "\n"..Msg['ban_ending'].." " .. (ban.time == 0 and Msg['ban_endless'] or os.date("%Y-%m-%d %H:%M:%S", ban.time)))
+                    ban.bannedby ..
+                    "\n" ..
+                    Msg['ban_ending'] ..
+                    " " .. (ban.time == 0 and Msg['ban_endless'] or os.date("%Y-%m-%d %H:%M:%S", ban.time)))
             else
                 table.remove(bans, i)
                 reworkFile = true
@@ -103,8 +124,6 @@ ESX.RegisterServerCallback('wolfy_ban:getIsPlayerAdmin', function(source, cb)
 end)
 
 RegisterCommand(Wolfy.Command['ban'].command, function(source, args)
-    local banFile = LoadResourceFile(GetCurrentResourceName(), 'ban.json')
-    local bans = banFile and json.decode(banFile) or {}
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if (source == 0 and true or Wolfy.GetAdmin('ban', xPlayer.getGroup())) then
@@ -118,7 +137,7 @@ RegisterCommand(Wolfy.Command['ban'].command, function(source, args)
         end
 
         local xTarget = ESX.GetPlayerFromId(targetId)
-        
+
         if xTarget then
             table.insert(bans, {
                 name = GetPlayerName(targetId),
@@ -142,14 +161,13 @@ RegisterCommand(Wolfy.Command['ban'].command, function(source, args)
         end
 
         DropPlayer(targetId, Msg['kick_message'])
+
         SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
-        Wolfy.Message(source, Msg   ['ban_success'] .. ' BanID: ' .. bans[#bans].banId)
+        Wolfy.Message(source, Msg['ban_success'] .. ' BanID: ' .. bans[#bans].banId)
     end
 end, false)
 
 RegisterCommand(Wolfy.Command['unban'].command, function(source, args)
-    local banFile = LoadResourceFile(GetCurrentResourceName(), 'ban.json')
-    local bans = banFile and json.decode(banFile) or {}
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if (source == 0 and true or Wolfy.GetAdmin('unban', xPlayer.getGroup())) then
@@ -174,8 +192,6 @@ RegisterCommand(Wolfy.Command['unban'].command, function(source, args)
 end, false)
 
 ESX.RegisterServerCallback('wolfy_ban:unbanPlayer', function(source, cb, banId)
-    local banFile = LoadResourceFile(GetCurrentResourceName(), 'ban.json')
-    local bans = banFile and json.decode(banFile) or {}
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if (source == 0 and true or Wolfy.GetAdmin('unban', xPlayer.getGroup())) then
@@ -204,8 +220,6 @@ function GetResourceAllowed()
 end
 
 exports('banPlayer', function(targetId, time, reason)
-    local bans = json.decode(LoadResourceFile(GetCurrentResourceName(), 'ban.json')) or {}
-
     if not GetResourceAllowed() then
         return
     end
@@ -232,8 +246,6 @@ exports('banPlayer', function(targetId, time, reason)
 end)
 
 exports('unbanPlayer', function(banId)
-    local bans = json.decode(LoadResourceFile(GetCurrentResourceName(), 'ban.json')) or {}
-
     if not GetResourceAllowed() then
         return
     end
@@ -241,8 +253,8 @@ exports('unbanPlayer', function(banId)
     for i = 1, #bans do
         if bans[i].banId == banId then
             table.remove(bans, i)
-            SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
             break
         end
     end
+    SaveResourceFile(GetCurrentResourceName(), 'ban.json', json.encode(bans, { indent = true }), -1)
 end)
